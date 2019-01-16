@@ -10,11 +10,13 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
 import agency.tango.android.avatarview.AvatarPlaceholder;
+import agency.tango.android.avatarview.IImageLoader;
 import agency.tango.android.avatarview.R;
 import timber.log.Timber;
 
@@ -38,6 +40,8 @@ public class AvatarView extends ImageView {
     private Paint borderPaint = new Paint();
     private Paint mainPaint = new Paint();
     private Rect circleRect;
+
+    private IImageLoader imageLoader = new GlideLoader();
 
     public AvatarView(Context context) {
         super(context);
@@ -189,5 +193,13 @@ public class AvatarView extends ImageView {
     protected void drawableStateChanged() {
         super.drawableStateChanged();
         invalidate();
+    }
+
+    public void loadImage(@NonNull AvatarPlaceholder avatarPlaceholder, String avatarUrl) {
+        imageLoader.loadImage(this, avatarPlaceholder, avatarUrl);
+    }
+
+    public void loadImage(@NonNull String name, String avatarUrl, Drawable placeHolderDrawable) {
+        imageLoader.loadImage(this, name.trim(), avatarUrl, placeHolderDrawable);
     }
 }

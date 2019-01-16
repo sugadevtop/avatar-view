@@ -106,7 +106,20 @@ public class AvatarPlaceholder extends Drawable {
     }
 
     private String convertNameToAvatarText(String name) {
-        return StringUtils.isNotNullOrEmpty(name) ? name.substring(0, 1).toUpperCase() : defaultString;
+        if(StringUtils.isNullOrEmpty(name)) {
+            return defaultString;
+        }
+
+        String[] nameArr = name.split(" ");
+
+        if(nameArr.length == 1) {
+            return Character.toString(nameArr[0].charAt(0)).toUpperCase();
+        }
+
+        StringBuilder builder = new StringBuilder();
+        builder.append(nameArr[0].charAt(0));
+        builder.append(nameArr[nameArr.length - 1].charAt(0));
+        return builder.toString().toUpperCase();
     }
 
     private String convertStringToColor(String text) {
